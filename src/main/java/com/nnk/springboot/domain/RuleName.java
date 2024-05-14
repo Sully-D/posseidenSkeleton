@@ -40,4 +40,7 @@ public class RuleName {
 
     @Column(name = "sqlPart")
     private String sqlPart;
+
+    public RuleName(String ruleName, String description, String json, String template, String sqlStr, String sqlPart) {
+    }
 }

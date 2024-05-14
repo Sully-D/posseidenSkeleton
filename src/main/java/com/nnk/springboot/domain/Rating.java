@@ -35,4 +35,7 @@ public class Rating {
 
     @Column(name = "orderNumber")
     private Integer orderNumber;
+
+    public Rating(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
+    }
 }

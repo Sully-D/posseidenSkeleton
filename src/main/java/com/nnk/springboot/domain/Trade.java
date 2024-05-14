@@ -83,4 +83,7 @@ public class Trade {
 
     @Column(name = "side")
     private String side;
+
+    public Trade(String tradeAccount, String type) {
+    }
 }
