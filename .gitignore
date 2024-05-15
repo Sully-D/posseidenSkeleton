@@ -19,3 +19,11 @@
 /target/classes/com/nnk/springboot/domain/User.class
 /target/classes/com/nnk/springboot/controllers/UserController.class
 /target/classes/com/nnk/springboot/repositories/UserRepository.class
+/target/test-classes/com/nnk/springboot/BidTests.class
+/target/test-classes/com/nnk/springboot/CurvePointTests.class
+/target/test-classes/com/nnk/springboot/PasswordEncodeTest.class
+/target/test-classes/com/nnk/springboot/RatingTests.class
+/target/test-classes/com/nnk/springboot/RuleTests.class
+/target/test-classes/com/nnk/springboot/TradeTests.class
+/.idea/uiDesigner.xml
+/target/test-classes/com/nnk/springboot/UserServiceTest.class
