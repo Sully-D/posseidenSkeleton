@@ -5,6 +5,9 @@ package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")

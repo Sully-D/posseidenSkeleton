@@ -27,3 +27,8 @@
 /target/test-classes/com/nnk/springboot/TradeTests.class
 /.idea/uiDesigner.xml
 /target/test-classes/com/nnk/springboot/UserServiceTest.class
+/target/test-classes/com/nnk/springboot/RatingServiceTest.class
+/target/classes/com/nnk/springboot/services/RatingService.class
+/target/classes/com/nnk/springboot/exception/CustomUncheckedException.class
+/target/classes/com/nnk/springboot/services/UserService.class
+/target/test-classes/com/nnk/springboot/RatingControllerTests.class
