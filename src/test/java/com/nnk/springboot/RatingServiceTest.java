@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -59,18 +60,34 @@ public class RatingServiceTest {
     @Test
     public void addRating_Successful() {
         // Arrange
-        Rating rating1 = new Rating();
-        rating1.setId(1);
-        rating1.setMoodysRating("MoodysRating1");
-        rating1.setSandPRating("SandPRating1");
-        rating1.setFitchRating("FitchRating1");
-        rating1.setOrderNumber(1);
+        Rating rating = new Rating();
+        rating.setId(1);
+        rating.setMoodysRating("MoodysRating1");
+        rating.setSandPRating("SandPRating1");
+        rating.setFitchRating("FitchRating1");
+        rating.setOrderNumber(1);
 
         // Act
-        ratingService.addRating(rating1);
+        ratingService.addRating(rating);
 
         // Assert
-        verify(ratingRepository, times(1)).save(rating1);
+        verify(ratingRepository, times(1)).save(rating);
     }
 
+    @Test
+    public void getRatingById() {
+        Rating rating = new Rating();
+        rating.setId(1);
+        rating.setMoodysRating("MoodysRating1");
+        rating.setSandPRating("SandPRating1");
+        rating.setFitchRating("FitchRating1");
+        rating.setOrderNumber(1);
+
+        when(ratingRepository.findById(rating.getId())).thenReturn(Optional.of(rating));
+
+        Optional<Rating> result = ratingService.getRatingById(1);
+
+        assertTrue(result.isPresent());
+        assertEquals("MoodysRating1", result.get().getMoodysRating());
+    }
 }
