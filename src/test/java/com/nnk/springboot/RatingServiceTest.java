@@ -90,4 +90,70 @@ public class RatingServiceTest {
         assertTrue(result.isPresent());
         assertEquals("MoodysRating1", result.get().getMoodysRating());
     }
+
+    @Test
+    public void testUpdateRatingSuccess() {
+        // Arrange
+        int id = 1;
+        Rating existingRating = new Rating();
+        existingRating.setId(id);
+        existingRating.setMoodysRating("OldMoodysRating");
+        existingRating.setSandPRating("OldSandPRating");
+        existingRating.setFitchRating("OldFitchRating");
+        existingRating.setOrderNumber(1);
+
+        Rating updatedRating = new Rating();
+        updatedRating.setMoodysRating("NewMoodysRating");
+        updatedRating.setSandPRating("NewSandPRating");
+        updatedRating.setFitchRating("NewFitchRating");
+        updatedRating.setOrderNumber(2);
+
+        when(ratingRepository.findById(id)).thenReturn(Optional.of(existingRating));
+
+        // Act
+        ratingService.updateRating(id, updatedRating);
+
+        // Assert
+        verify(ratingRepository).save(existingRating);
+        assertEquals("NewMoodysRating", existingRating.getMoodysRating());
+        assertEquals("NewSandPRating", existingRating.getSandPRating());
+        assertEquals("NewFitchRating", existingRating.getFitchRating());
+        assertEquals(2, existingRating.getOrderNumber());
+    }
+
+    @Test
+    public void testUpdateRatingNotFound() {
+        // Arrange
+        int id = 1;
+        Rating updatedRating = new Rating();
+        updatedRating.setMoodysRating("NewMoodysRating");
+        updatedRating.setSandPRating("NewSandPRating");
+        updatedRating.setFitchRating("NewFitchRating");
+        updatedRating.setOrderNumber(2);
+
+        when(ratingRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            ratingService.updateRating(id, updatedRating);
+        });
+        assertEquals("No rating found with this id : 1", exception.getMessage());
+        verify(ratingRepository, never()).save(any(Rating.class));
+    }
+
+    @Test
+    public void deleteRating() {
+        Rating rating = new Rating();
+        rating.setId(1);
+        rating.setMoodysRating("MoodysRating1");
+        rating.setSandPRating("SandPRating1");
+        rating.setFitchRating("FitchRating1");
+        rating.setOrderNumber(1);
+
+        when(ratingRepository.findById(rating.getId())).thenReturn(Optional.of(rating));
+
+        ratingService.deleteRating(rating.getId());
+
+        verify(ratingRepository, times(1)).delete(rating);
+    }
 }

@@ -16,7 +16,7 @@ public class RatingService {
     RatingRepository ratingRepository;
 
     public Optional<Rating> getRatingById(Integer id) {
-        Utils.validNumber(id, "id");
+        Utils.validNumber(id, "id rating");
         return ratingRepository.findById(id);
     }
 
@@ -26,5 +26,36 @@ public class RatingService {
 
     public void addRating(Rating rating) {
         ratingRepository.save(rating);
+    }
+
+    public void updateRating(int id, Rating updateRating) {
+        Utils.validNumber(id, "id rating");
+
+        Optional<Rating> optionalRating = getRatingById(id);
+        if (optionalRating.isEmpty()) {
+            throw new RuntimeException("No rating found with this id : " + id);
+        }
+
+        Rating rating = optionalRating.get();
+
+        rating.setMoodysRating(updateRating.getMoodysRating());
+        rating.setSandPRating(updateRating.getSandPRating());
+        rating.setFitchRating(updateRating.getFitchRating());
+        rating.setOrderNumber(updateRating.getOrderNumber());
+
+        ratingRepository.save(rating);
+    }
+
+    public void deleteRating(int id) {
+        Utils.validNumber(id, "id rating");
+
+        Optional<Rating> optionalRating = getRatingById(id);
+        if (optionalRating.isEmpty()) {
+            throw new RuntimeException("No rating found with this id : " + id);
+        }
+
+        Rating rating = optionalRating.get();
+
+        ratingRepository.delete(rating);
     }
 }
