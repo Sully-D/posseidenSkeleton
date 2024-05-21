@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 //import javax.validation.Valid;
 
@@ -21,21 +22,15 @@ import java.util.List;
 @RequestMapping("/rating")
 public class RatingController {
 
-//    @Autowired
-//    RatingService ratingService;
+    @Autowired
+    RatingService ratingService;
 
     @Autowired
     RatingRepository ratingRepository;
 
-    /**
-     * Display the list of all ratings.
-     *
-     * @param model the model to pass data to the view
-     * @return the view name for the rating list
-     */
     @GetMapping("/list")
     public String home(Model model) {
-        List<Rating> listRatings = ratingRepository.findAll();
+        List<Rating> listRatings = ratingService.getAllRating();
         model.addAttribute("ratings", listRatings);
         return "rating/list";
     }
@@ -47,13 +42,24 @@ public class RatingController {
 
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Rating list
-        return "rating/add";
+        if (result.hasErrors()) {
+            return "rating/add";
+        }
+        ratingService.addRating(rating);
+        return "redirect:rating/list";
     }
 
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         // TODO: get Rating by Id and to model then show to the form
+        Optional<Rating> rating = ratingService.getRatingById(id);
+
+        if (rating.isEmpty()) {
+            model.addAttribute("error", "Rating not found");
+            return "redirect:/rating/list";
+        }
+
+        model.addAttribute("rating", rating.get());
         return "rating/update";
     }
 

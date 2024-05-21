@@ -4,6 +4,8 @@ package com.nnk.springboot.domain;
 //import javax.validation.constraints.NotBlank;
 //import javax.validation.constraints.NotNull;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,15 +27,20 @@ public class Rating {
     private Integer id;
 
     @Column(name = "moodysRating")
+    @NotNull
     private String moodysRating;
 
     @Column(name = "sandPRating")
+    @NotNull
     private String sandPRating;
 
     @Column(name = "fitchRating")
+    @NotNull
     private String fitchRating;
 
     @Column(name = "orderNumber")
+    @NotNull
+    @Size(min = 1)
     private Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
