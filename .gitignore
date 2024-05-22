@@ -32,3 +32,6 @@
 /target/classes/com/nnk/springboot/exception/CustomUncheckedException.class
 /target/classes/com/nnk/springboot/services/UserService.class
 /target/test-classes/com/nnk/springboot/RatingControllerTests.class
+/target/classes/com/nnk/springboot/configuration/CustomUserDetailsService.class
+/target/classes/com/nnk/springboot/configuration/SpringSecurityConfig.class
+/target/classes/com/nnk/springboot/util/Utils.class
