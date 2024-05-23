@@ -59,6 +59,13 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         // TODO: get Bid by Id and to model then show to the form
+        try {
+            BidList bidList = bidListService.getBidById(id);
+            model.addAttribute("bidList", bidList);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", "Bid not found with id : " + id);
+            return "bidList/update";
+        }
         return "bidList/update";
     }
 

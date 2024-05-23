@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BidListService {
@@ -24,5 +25,13 @@ public class BidListService {
         Utils.stringIsValide(bidList.getType(), "Type");
 
         bidListRepository.save(bidList);
+    }
+
+    public BidList getBidById(int id) {
+        Optional<BidList> optionalBidList = bidListRepository.findById(id);
+        if (optionalBidList.isEmpty()) {
+            throw new RuntimeException("No Bid with this id : " + id + " found !");
+        }
+        return optionalBidList.get();
     }
 }
