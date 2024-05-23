@@ -27,7 +27,7 @@ public class RatingService {
      * @throws IllegalArgumentException if the ID is not valid.
      */
     public Optional<Rating> getRatingById(Integer id) {
-        Utils.validNumber(id, "id rating");
+        Utils.intIsValide(id, "id rating");
         return ratingRepository.findById(id);
     }
 
@@ -58,7 +58,7 @@ public class RatingService {
      * @throws IllegalArgumentException if the ID is not valid.
      */
     public void updateRating(int id, Rating updateRating) {
-        Utils.validNumber(id, "id rating");
+        Utils.intIsValide(id, "id rating");
 
         // Retrieve the existing Rating
         Optional<Rating> optionalRating = getRatingById(id);
@@ -86,7 +86,7 @@ public class RatingService {
      * @throws IllegalArgumentException if the ID is not valid.
      */
     public void deleteRating(int id) {
-        Utils.validNumber(id, "id rating");
+        Utils.intIsValide(id, "id rating");
 
         // Retrieve the existing Rating
         Optional<Rating> optionalRating = getRatingById(id);
