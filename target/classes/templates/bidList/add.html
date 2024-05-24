@@ -13,6 +13,10 @@
 		<h2>Add New Bid</h2>
 	</div>
 
+	<div th:if="${errorMessage}" class="alert alert-danger">
+		<p th:text="${errorMessage}"></p>
+	</div>
+
 	<div class="row">
 		<form action="#" th:action="@{/bidList/validate}" th:object="${bidList}" method="post" class="form-horizontal" style="width: 100%">
 			<div class="form-group">
