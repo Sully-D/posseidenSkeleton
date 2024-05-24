@@ -268,4 +268,60 @@ public class BidListServiceTest {
         });
         assertEquals("No Bid with this id : " + nonExistentId + " found !", exception.getMessage());
     }
+
+    @Test
+    public void deleteBidList() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Arrange
+        BidList bidList1 = new BidList();
+        bidList1.setBidListId(1);
+        bidList1.setAccount("user");
+        bidList1.setType("user");
+        bidList1.setBidQuantity(10.0);
+        bidList1.setAskQuantity(2.0);
+        bidList1.setBid(3.0);
+        bidList1.setAsk(5.0);
+        bidList1.setBenchmark("benchmark");
+        bidList1.setCommentary("commentary");
+        bidList1.setSecurity("security");
+        bidList1.setStatus("status");
+        bidList1.setTrader("trader");
+        bidList1.setBook("book");
+        bidList1.setCreationName("creation name");
+        bidList1.setCreationDate(timestamp);
+        bidList1.setRevisionName("revision name");
+        bidList1.setRevisionDate(timestamp);
+        bidList1.setDealName("deal name");
+        bidList1.setDealType("deal type");
+        bidList1.setSourceListId("source list id");
+        bidList1.setSide("side");
+
+        when(bidListRepository.findById(bidList1.getBidListId())).thenReturn(Optional.of(bidList1));
+
+        // Act
+        bidListService.delete(bidList1.getBidListId());
+
+        // Assert
+        verify(bidListRepository).delete(bidList1);
+    }
+
+    @Test
+    public void deleteBidList_WhenIdNoFound() {
+
+        // Arrange
+        BidList bidList1 = new BidList();
+        bidList1.setBidListId(1);
+        bidList1.setAccount("user");
+        bidList1.setType("user");
+
+        int nonExistentId = 2;
+        when(bidListRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            bidListService.delete(nonExistentId);
+        });
+        assertEquals("No Bid with this id : " + nonExistentId + " found !", exception.getMessage());
+    }
 }

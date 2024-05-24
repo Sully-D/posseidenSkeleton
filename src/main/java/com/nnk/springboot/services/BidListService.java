@@ -45,4 +45,10 @@ public class BidListService {
 
         save(updateBid);
     }
+
+    public void delete(@NotNull int bidListId) {
+        BidList bidListToDelete = getBidById(bidListId);
+
+        bidListRepository.delete(bidListToDelete);
+    }
 }
