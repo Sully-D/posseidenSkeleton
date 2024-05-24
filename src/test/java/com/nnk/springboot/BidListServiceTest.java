@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -141,5 +142,130 @@ public class BidListServiceTest {
             bidListService.getBidById(id);
         });
         assertEquals("No Bid with this id : 1 found !", exception.getMessage());
+    }
+
+    @Test
+    public void updateBid() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Arrange
+        BidList oldBid = new BidList();
+        oldBid.setBidListId(1);
+        oldBid.setAccount("user");
+        oldBid.setType("user");
+        oldBid.setBidQuantity(10.0);
+        oldBid.setAskQuantity(2.0);
+        oldBid.setBid(3.0);
+        oldBid.setAsk(5.0);
+        oldBid.setBenchmark("benchmark");
+        oldBid.setCommentary("commentary");
+        oldBid.setSecurity("security");
+        oldBid.setStatus("status");
+        oldBid.setTrader("trader");
+        oldBid.setBook("book");
+        oldBid.setCreationName("creation name");
+        oldBid.setCreationDate(timestamp);
+        oldBid.setRevisionName("revision name");
+        oldBid.setRevisionDate(timestamp);
+        oldBid.setDealName("deal name");
+        oldBid.setDealType("deal type");
+        oldBid.setSourceListId("source list id");
+        oldBid.setSide("side");
+
+        BidList updateBid = new BidList();
+        updateBid.setBidListId(1);
+        updateBid.setAccount("updatedAccount");
+        updateBid.setType("updatedType");
+        updateBid.setBidQuantity(150.0);
+        updateBid.setAskQuantity(20.0);
+        updateBid.setBid(1.0);
+        updateBid.setAsk(8.0);
+        updateBid.setBenchmark("benchmark");
+        updateBid.setCommentary("commentary");
+        updateBid.setSecurity("security");
+        updateBid.setStatus("status");
+        updateBid.setTrader("trader");
+        updateBid.setBook("book");
+        updateBid.setCreationName("creation name");
+        updateBid.setCreationDate(timestamp);
+        updateBid.setRevisionName("revision name");
+        updateBid.setRevisionDate(timestamp);
+        updateBid.setDealName("deal name");
+        updateBid.setDealType("deal type");
+        updateBid.setSourceListId("source list id");
+        updateBid.setSide("side");
+
+        when(bidListRepository.findById(oldBid.getBidListId())).thenReturn(Optional.of(oldBid));
+
+        // Act
+        bidListService.updateBid(updateBid);
+
+        // Assert
+        verify(bidListRepository).save(updateBid);
+        assertEquals("updatedAccount", updateBid.getAccount());
+        assertEquals("updatedType", updateBid.getType());
+        assertEquals(150.0, updateBid.getBidQuantity());
+    }
+
+    @Test
+    public void testUpdateBidNotFound() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Arrange
+        BidList oldBid = new BidList();
+        oldBid.setBidListId(1);
+        oldBid.setAccount("user");
+        oldBid.setType("user");
+        oldBid.setBidQuantity(10.0);
+        oldBid.setAskQuantity(2.0);
+        oldBid.setBid(3.0);
+        oldBid.setAsk(5.0);
+        oldBid.setBenchmark("benchmark");
+        oldBid.setCommentary("commentary");
+        oldBid.setSecurity("security");
+        oldBid.setStatus("status");
+        oldBid.setTrader("trader");
+        oldBid.setBook("book");
+        oldBid.setCreationName("creation name");
+        oldBid.setCreationDate(timestamp);
+        oldBid.setRevisionName("revision name");
+        oldBid.setRevisionDate(timestamp);
+        oldBid.setDealName("deal name");
+        oldBid.setDealType("deal type");
+        oldBid.setSourceListId("source list id");
+        oldBid.setSide("side");
+
+        BidList updateBid = new BidList();
+        updateBid.setBidListId(1);
+        updateBid.setAccount("updatedAccount");
+        updateBid.setType("updatedType");
+        updateBid.setBidQuantity(150.0);
+        updateBid.setAskQuantity(20.0);
+        updateBid.setBid(1.0);
+        updateBid.setAsk(8.0);
+        updateBid.setBenchmark("benchmark");
+        updateBid.setCommentary("commentary");
+        updateBid.setSecurity("security");
+        updateBid.setStatus("status");
+        updateBid.setTrader("trader");
+        updateBid.setBook("book");
+        updateBid.setCreationName("creation name");
+        updateBid.setCreationDate(timestamp);
+        updateBid.setRevisionName("revision name");
+        updateBid.setRevisionDate(timestamp);
+        updateBid.setDealName("deal name");
+        updateBid.setDealType("deal type");
+        updateBid.setSourceListId("source list id");
+        updateBid.setSide("side");
+
+        int nonExistentId = 2;
+        updateBid.setBidListId(nonExistentId);
+        when(bidListRepository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            bidListService.updateBid(updateBid);
+        });
+        assertEquals("No Bid with this id : " + nonExistentId + " found !", exception.getMessage());
     }
 }

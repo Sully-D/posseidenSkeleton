@@ -3,6 +3,7 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.util.Utils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class BidListService {
         return bidListRepository.findAll();
     }
 
-    public void save(BidList bidList) {
+    public void save(@NotNull BidList bidList) {
 
         Utils.stringIsValide(bidList.getAccount(), "Account");
         Utils.stringIsValide(bidList.getType(), "Type");
@@ -33,5 +34,15 @@ public class BidListService {
             throw new RuntimeException("No Bid with this id : " + id + " found !");
         }
         return optionalBidList.get();
+    }
+
+    public void updateBid(@NotNull BidList updateBid) {
+        BidList oldBid = getBidById(updateBid.getBidListId());
+
+        if(!oldBid.getBidListId().equals(updateBid.getBidListId())) {
+            throw new RuntimeException("No Bid with this id : " + updateBid.getBidListId() + " found !");
+        }
+
+        save(updateBid);
     }
 }
