@@ -73,7 +73,24 @@ public class BidListController {
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Bid and return list Bid
-        return "redirect:/bidList/list";
+        if (result.hasErrors()) {
+            model.addAttribute("bidList", bidList);
+            return "bidList/update";
+        }
+        try {
+            Utils.stringIsValide(bidList.getAccount(), "Account");
+            Utils.stringIsValide(bidList.getType(), "Type");
+
+            bidList.setBidListId(id);
+            bidListService.updateBid(bidList);
+
+            model.addAttribute("bidList", bidListService.findAllBids());
+            return "redirect:/bidList/list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("bidList", bidList);
+            return "bidList/update";
+        }
     }
 
     @GetMapping("/bidList/delete/{id}")
