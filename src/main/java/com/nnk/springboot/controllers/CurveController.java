@@ -16,31 +16,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-//import javax.validation.Valid;
 
+/**
+ * Controller for handling CurvePoint-related web requests.
+ * This class provides methods for displaying, adding, updating, and deleting CurvePoint.
+ */
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
     @Autowired
     CurveService curveService;
 
+    /**
+     * Displays a list of all curve point.
+     *
+     * @param model the model to add attributes used for rendering view
+     * @return the view name for displaying the list of curve point lists
+     */
     @RequestMapping("/curvePoint/list")
     public String home(Model model)
     {
-        // TODO: find all Curve Point, add to model
         List<CurvePoint> curvePointList = curveService.findAllCurves();
         model.addAttribute("curvePoint", curvePointList);
         return "curvePoint/list";
     }
 
+    /**
+     * Displays the form for adding a new curve list.
+     *
+     * @param bid the BidList object to bind form data
+     * @return the view name for the bid list add form
+     */
     @GetMapping("/curvePoint/add")
     public String addBidForm(CurvePoint bid) {
         return "curvePoint/add";
     }
 
+    /**
+     * Validates and saves a new bid list.
+     *
+     * @param curvePoint the curvePoint object to validate and save
+     * @param result the BindingResult object to hold validation errors
+     * @param model the model to add attributes used for rendering view
+     * @return the view name for the curve point list or add form if there are validation errors
+     */
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
         if (result.hasErrors()){
             return "curvePoint/add";
         }
@@ -55,9 +75,15 @@ public class CurveController {
         return "redirect:/curvePoint/list";
     }
 
+    /**
+     * Displays the form for updating an existing curve list.
+     *
+     * @param id the ID of the bid list to update
+     * @param model the model to add attributes used for rendering view
+     * @return the view name for the curve list update form or the curve list update view if not found
+     */
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
         try {
             CurvePoint curvePoint = curveService.getCurveById(id);
             model.addAttribute("curvePoint", curvePoint);
@@ -68,15 +94,24 @@ public class CurveController {
         return "curvePoint/update";
     }
 
+    /**
+     * Validates and updates an existing bid list.
+     *
+     * @param id the ID of the curve list to update
+     * @param curvePoint the BidList object to validate and update
+     * @param result the BindingResult object to hold validation errors
+     * @param model the model to add attributes used for rendering view
+     * @return the view name for the curve list or update form if there are validation errors
+     */
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
         if (result.hasErrors()) {
             model.addAttribute("curvePoint", curvePoint);
             return "curvePoint/update";
         }
         try {
+            Utils.intIsValide(id, "ID");
             Utils.intIsValide(curvePoint.getCurveId(), "Curve ID");
 
             curveService.update(curvePoint);
@@ -90,9 +125,15 @@ public class CurveController {
         }
     }
 
+    /**
+     * Deletes an existing bid list.
+     *
+     * @param id the ID of the curve list to delete
+     * @param model the model to add attributes used for rendering view
+     * @return the view name for the curve list
+     */
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
         curveService.delete(id);
         model.addAttribute("curvePoint", curveService.findAllCurves());
         return "redirect:/curvePoint/list";
