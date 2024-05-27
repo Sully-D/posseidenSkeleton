@@ -65,12 +65,11 @@ public class BidListController {
         try {
             Utils.stringIsValide(bid.getAccount(), "Account");
             Utils.stringIsValide(bid.getType(), "Type");
+            bidListService.save(bid);
         } catch(IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "bidList/add";
         }
-
-        bidListService.save(bid);
 
         model.addAttribute("bidList", bidListService.findAllBids());
         return "redirect:/bidList/list";
