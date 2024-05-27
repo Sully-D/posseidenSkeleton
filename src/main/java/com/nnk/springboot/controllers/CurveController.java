@@ -1,7 +1,9 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurveService;
+import com.nnk.springboot.util.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,12 +41,30 @@ public class CurveController {
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Curve list
-        return "curvePoint/add";
+        if (result.hasErrors()){
+            return "curvePoint/add";
+        }
+        try {
+            curveService.save(curvePoint);
+        } catch(IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "curvePoint/add";
+        }
+
+        model.addAttribute("curvePoint", curveService.findAllCurves());
+        return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         // TODO: get CurvePoint by Id and to model then show to the form
+        try {
+            CurvePoint curvePoint = curveService.getCurveById(id);
+            model.addAttribute("curvePoint", curvePoint);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", "Curve not found with id : " + id);
+            return "curvePoint/update";
+        }
         return "curvePoint/update";
     }
 
@@ -52,12 +72,29 @@ public class CurveController {
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Curve and return Curve list
-        return "redirect:/curvePoint/list";
+        if (result.hasErrors()) {
+            model.addAttribute("curvePoint", curvePoint);
+            return "curvePoint/update";
+        }
+        try {
+            Utils.intIsValide(curvePoint.getCurveId(), "Curve ID");
+
+            curveService.update(curvePoint);
+
+            model.addAttribute("curvePoint", curveService.findAllCurves());
+            return "redirect:/curvePoint/list";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("curvePoint", curvePoint);
+            return "curvePoint/update";
+        }
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         // TODO: Find Curve by Id and delete the Curve, return to Curve list
+        curveService.delete(id);
+        model.addAttribute("curvePoint", curveService.findAllCurves());
         return "redirect:/curvePoint/list";
     }
 }
