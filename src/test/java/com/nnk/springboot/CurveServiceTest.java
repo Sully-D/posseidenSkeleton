@@ -1,8 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import com.nnk.springboot.services.CurveService;
 import org.junit.jupiter.api.Test;
