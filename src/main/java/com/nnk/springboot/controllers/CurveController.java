@@ -42,8 +42,8 @@ public class CurveController {
     /**
      * Displays the form for adding a new curve list.
      *
-     * @param bid the BidList object to bind form data
-     * @return the view name for the bid list add form
+     * @param bid the CurvePoint object to bind form data
+     * @return the view name for the CurvePoint add form
      */
     @GetMapping("/curvePoint/add")
     public String addBidForm(CurvePoint bid) {
