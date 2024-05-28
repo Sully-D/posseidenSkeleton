@@ -1,9 +1,7 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
-import com.nnk.springboot.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service class for managing curvePoint entities.
- * This class provides methods for CRUD operations on CurvePoint entities.
+ * Service class for managing RuleName entities.
+ * This class provides methods for CRUD operations on RuleName entities.
  */
 @Service
 public class RuleNameService {

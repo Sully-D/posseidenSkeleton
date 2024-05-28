@@ -40,7 +40,7 @@ public class RuleNameController {
     }
 
     /**
-     * Displays the form for adding a new curve list.
+     * Displays the form for adding a new ruleName list.
      *
      * @param bid the RuleName object to bind form data
      * @return the view name for the RuleName add form
