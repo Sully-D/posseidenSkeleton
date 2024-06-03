@@ -1,19 +1,13 @@
 package com.nnk.springboot.domain;
 
-//import javax.persistence.*;
-//import javax.validation.constraints.NotBlank;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotBlank(message = "Username is mandatory")
     private String username;
@@ -24,6 +18,7 @@ public class User {
     @NotBlank(message = "Role is mandatory")
     private String role;
 
+    // Getters and Setters
     public Integer getId() {
         return id;
     }
