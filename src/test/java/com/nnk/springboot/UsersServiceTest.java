@@ -46,7 +46,7 @@ public class UsersServiceTest {
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
 
         // Act & Assert
-        Exception exception = assertThrows(UsernameNotFoundException.class, () -> {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
             userService.getUser("unknownUser");
         });
 

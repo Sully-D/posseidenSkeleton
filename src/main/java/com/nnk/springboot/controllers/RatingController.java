@@ -3,8 +3,10 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.services.RatingService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,11 +40,11 @@ public class RatingController {
      * @param model the model to add attributes used for rendering view
      * @return the view name for displaying the list of ratings
      */
-    @GetMapping("/list")
+    @GetMapping("/rating/list")
     public String home(Model model) {
         List<Rating> listRatings = ratingService.getAllRating();
         model.addAttribute("ratings", listRatings);
-        return "rating/list";
+        return "/rating/list";
     }
 
     /**

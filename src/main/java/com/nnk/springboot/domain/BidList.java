@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bidlist")
+@Table(name = "BidList")
 public class BidList {
 
     @Id

@@ -1,6 +1,6 @@
 
-CREATE TABLE BidList (
-  BidListId tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE bid_list (
+  BidListId INT(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   bidQuantity DOUBLE,
@@ -25,8 +25,8 @@ CREATE TABLE BidList (
   PRIMARY KEY (BidListId)
 );
 
-CREATE TABLE Trade (
-  TradeId tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE trade (
+  TradeId INT(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   buyQuantity DOUBLE,
@@ -50,9 +50,9 @@ CREATE TABLE Trade (
   PRIMARY KEY (TradeId)
 );
 
-CREATE TABLE CurvePoint (
-  Id tinyint(4) NOT NULL AUTO_INCREMENT,
-  CurveId tinyint,
+CREATE TABLE curve_point (
+  Id INT(4) NOT NULL AUTO_INCREMENT,
+  CurveId INT,
   asOfDate TIMESTAMP,
   term DOUBLE,
   value DOUBLE,
@@ -60,17 +60,17 @@ CREATE TABLE CurvePoint (
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE Rating (
-  Id tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE rating (
+  Id INT(4) NOT NULL AUTO_INCREMENT,
   moodysRating VARCHAR(125),
   sandPRating VARCHAR(125),
   fitchRating VARCHAR(125),
-  orderNumber tinyint,
+  orderNumber INT,
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE RuleName (
-  Id tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE rule_name (
+  Id INT(4) NOT NULL AUTO_INCREMENT,
   name VARCHAR(125),
   description VARCHAR(125),
   json VARCHAR(125),
@@ -80,8 +80,8 @@ CREATE TABLE RuleName (
   PRIMARY KEY (Id)
 );
 
-CREATE TABLE Users (
-  Id tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE users (
+  Id INT(4) NOT NULL AUTO_INCREMENT,
   username VARCHAR(125),
   password VARCHAR(125),
   fullname VARCHAR(125),
@@ -89,6 +89,6 @@ CREATE TABLE Users (
   PRIMARY KEY (Id)
 );
 
-insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
-insert into Users(fullname, username, password, role) values("User", "users", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
-insert into Users(fullname, username, password, role) values("Test", "test", "$2y$10$h5W7ln1kdp12zbQ0x3qNnejpehs83AkWkxhcpvTlAVuGuKPclkY16", "USER");
+insert into users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
+insert into users(fullname, username, password, role) values("User", "users", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
+insert into users(fullname, username, password, role) values("Test", "test", "$2y$10$h5W7ln1kdp12zbQ0x3qNnejpehs83AkWkxhcpvTlAVuGuKPclkY16", "USER");
