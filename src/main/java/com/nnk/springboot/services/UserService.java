@@ -1,9 +1,8 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.User;
+import com.nnk.springboot.domain.Users;
 import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,11 +13,11 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User getUser(String username){
+    public Users getUser(String username){
 
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<Users> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isEmpty())
-            throw new UsernameNotFoundException("Username not found !");
+            throw new RuntimeException("Username not found !");
 
         return optionalUser.get();
     }

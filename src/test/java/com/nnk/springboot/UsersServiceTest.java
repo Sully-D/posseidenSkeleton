@@ -1,6 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.User;
+import com.nnk.springboot.domain.Users;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class UsersServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -28,12 +28,12 @@ public class UserServiceTest {
     @Test
     public void testGetUser_Success() {
         // Arrange
-        User mockUser = new User();
-        mockUser.setUsername("testUser");
-        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(mockUser));
+        Users mockUsers = new Users();
+        mockUsers.setUsername("testUser");
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(mockUsers));
 
         // Act
-        User result = userService.getUser("testUser");
+        Users result = userService.getUser("testUser");
 
         // Assert
         assertNotNull(result);
