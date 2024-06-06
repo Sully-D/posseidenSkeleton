@@ -35,17 +35,27 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        return http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/").permitAll();
-            auth.requestMatchers("/admin").hasRole("ADMIN");
-            auth.requestMatchers("/users").hasRole("USER");
-            auth.requestMatchers("/bidList").hasRole("USER");
-            auth.requestMatchers("/curvePoint").hasRole("USER");
-            auth.requestMatchers("/rating").hasRole("USER");
-            auth.requestMatchers("/ruleName").hasRole("USER");
-            auth.requestMatchers("/trade").hasRole("USER");
-            auth.anyRequest().authenticated();
-        }).formLogin(Customizer.withDefaults()).build();
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/bidList/**").hasRole("USER")
+                        .requestMatchers("/curvePoint/**").hasRole("USER")
+                        .requestMatchers("/rating/**").hasRole("USER")
+                        .requestMatchers("/ruleName/**").hasRole("USER")
+                        .requestMatchers("/trade/**").hasRole("USER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .permitAll()
+                )
+                .csrf(csrf -> csrf.disable());
+
+        return http.build();
     }
 
 

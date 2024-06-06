@@ -23,8 +23,8 @@ import java.sql.Timestamp;
 public class BidList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BidListId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "bid_list_id")
     private Integer bidListId;
 
     @Column(name = "account", nullable = false)

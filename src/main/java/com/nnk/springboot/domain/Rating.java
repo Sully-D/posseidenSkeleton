@@ -22,7 +22,7 @@ import java.sql.Timestamp;
 public class Rating {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id")
     private Integer id;
 

@@ -16,12 +16,12 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Trade")
+@Table(name = "trade")
 public class Trade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TradeId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "trade_id")
     private Integer tradeId;
 
     @Column(name = "account")
