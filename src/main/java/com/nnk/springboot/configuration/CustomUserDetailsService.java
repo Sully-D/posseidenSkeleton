@@ -6,6 +6,7 @@ import java.util.List;
 import com.nnk.springboot.domain.Users;
 import com.nnk.springboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,8 +22,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public CustomUserDetailsService(@Lazy UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Loads the user's data from the database using the username.
