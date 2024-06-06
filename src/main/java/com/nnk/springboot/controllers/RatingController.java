@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,6 @@ import java.util.Optional;
  * This class provides methods for displaying, adding, updating, and deleting ratings.
  */
 @Controller
-@RequestMapping("/rating")
 public class RatingController {
 
     @Autowired
@@ -41,10 +42,13 @@ public class RatingController {
      * @return the view name for displaying the list of ratings
      */
     @GetMapping("/rating/list")
-    public String home(Model model) {
+    public String home(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+        if (currentUser != null) {
+            model.addAttribute("username", currentUser.getUsername());
+        }
         List<Rating> listRatings = ratingService.getAllRating();
         model.addAttribute("ratings", listRatings);
-        return "/rating/list";
+        return "rating/list";
     }
 
     /**
@@ -72,7 +76,7 @@ public class RatingController {
             return "rating/add";
         }
         ratingService.addRating(rating);
-        return "redirect:rating/list";
+        return "redirect:list";
     }
 
     /**

@@ -5,6 +5,8 @@ import com.nnk.springboot.services.RuleNameService;
 import com.nnk.springboot.util.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,11 @@ public class RuleNameController {
      * @return the view name for displaying the list of RuleName lists
      */
     @RequestMapping("/ruleName/list")
-    public String home(Model model)
+    public String home(Model model, @AuthenticationPrincipal UserDetails currentUser)
     {
+        if (currentUser != null) {
+            model.addAttribute("username", currentUser.getUsername());
+        }
         List<RuleName> ruleNamesList = ruleNameService.findAllRuleName();
         model.addAttribute("ruleName", ruleNamesList);
         return "ruleName/list";
@@ -42,11 +47,11 @@ public class RuleNameController {
     /**
      * Displays the form for adding a new ruleName list.
      *
-     * @param bid the RuleName object to bind form data
+     * @param ruleName the RuleName object to bind form data
      * @return the view name for the RuleName add form
      */
     @GetMapping("/ruleName/add")
-    public String addRuleForm(RuleName bid) {
+    public String addRuleForm(RuleName ruleName) {
         return "ruleName/add";
     }
 
@@ -60,18 +65,11 @@ public class RuleNameController {
      */
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            return "/ruleName/add";
+        if (result.hasErrors()) {
+            return "ruleName/add";
         }
-        try {
-            ruleNameService.save(ruleName);
-        } catch(IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "/ruleName/add";
-        }
-
-        model.addAttribute("ruleName", ruleNameService.findAllRuleName());
-        return "redirect:/ruleName/list";
+        ruleNameService.save(ruleName);
+        return "redirect:list";
     }
 
     /**

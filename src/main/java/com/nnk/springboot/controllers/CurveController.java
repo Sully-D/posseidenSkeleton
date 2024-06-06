@@ -3,8 +3,11 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurveService;
 import com.nnk.springboot.util.Utils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +35,11 @@ public class CurveController {
      * @return the view name for displaying the list of curve point lists
      */
     @RequestMapping("/curvePoint/list")
-    public String home(Model model)
+    public String home(Model model, @AuthenticationPrincipal UserDetails currentUser)
     {
+        if (currentUser != null) {
+            model.addAttribute("username", currentUser.getUsername());
+        }
         List<CurvePoint> curvePointList = curveService.findAllCurves();
         model.addAttribute("curvePoint", curvePointList);
         return "curvePoint/list";
@@ -60,18 +66,11 @@ public class CurveController {
      */
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            return "curvePoint/add";
+        if (result.hasErrors()) {
+            return "rating/add";
         }
-        try {
-            curveService.save(curvePoint);
-        } catch(IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "curvePoint/add";
-        }
-
-        model.addAttribute("curvePoint", curveService.findAllCurves());
-        return "redirect:/curvePoint/list";
+        curveService.save(curvePoint);
+        return "redirect:list";
     }
 
     /**

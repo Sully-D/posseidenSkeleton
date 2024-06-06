@@ -24,10 +24,10 @@ public class Trade {
     @Column(name = "trade_id")
     private Integer tradeId;
 
-    @Column(name = "account")
+    @Column(name = "account", nullable = false)
     private String account;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private String type;
 
     @Column(name = "buyQuantity")

@@ -6,6 +6,8 @@ import com.nnk.springboot.services.TradeService;
 import com.nnk.springboot.util.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,10 +34,13 @@ public class TradeController {
      * @return the view name for displaying the list of Trade lists
      */
     @RequestMapping("/trade/list")
-    public String home(Model model)
+    public String home(Model model, @AuthenticationPrincipal UserDetails currentUser)
     {
+        if (currentUser != null) {
+            model.addAttribute("username", currentUser.getUsername());
+        }
         List<Trade> tradeList = tradeService.findAllTrade();
-        model.addAttribute("trade", tradeList);
+        model.addAttribute("trades", tradeList);
         return "trade/list";
     }
 

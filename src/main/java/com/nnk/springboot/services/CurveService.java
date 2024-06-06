@@ -47,11 +47,8 @@ public class CurveService {
      * Saves a new CurvePoint entity.
      *
      * @param curvePoint the CurvePoint entity to save.
-     * @throws IllegalArgumentException if the account or type is invalid.
      */
     public void save(CurvePoint curvePoint) {
-        Utils.intIsValide(curvePoint.getCurveId(), "Curve ID");
-
         curvePointRepository.save(curvePoint);
     }
 

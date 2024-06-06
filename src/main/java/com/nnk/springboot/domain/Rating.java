@@ -4,6 +4,7 @@ package com.nnk.springboot.domain;
 //import javax.validation.constraints.NotBlank;
 //import javax.validation.constraints.NotNull;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class Rating {
 
     @Column(name = "orderNumber")
     @NotNull
-    @Size(min = 1)
+    @Min(1)
     private Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
