@@ -40,7 +40,7 @@ public class RuleNameController {
             model.addAttribute("username", currentUser.getUsername());
         }
         List<RuleName> ruleNamesList = ruleNameService.findAllRuleName();
-        model.addAttribute("ruleName", ruleNamesList);
+        model.addAttribute("ruleNames", ruleNamesList);
         return "ruleName/list";
     }
 

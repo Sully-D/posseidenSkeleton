@@ -41,7 +41,7 @@ public class CurveController {
             model.addAttribute("username", currentUser.getUsername());
         }
         List<CurvePoint> curvePointList = curveService.findAllCurves();
-        model.addAttribute("curvePoint", curvePointList);
+        model.addAttribute("curvePoints", curvePointList);
         return "curvePoint/list";
     }
 
@@ -110,7 +110,6 @@ public class CurveController {
         }
         try {
             Utils.intIsValide(id, "ID");
-            Utils.intIsValide(curvePoint.getCurveId(), "Curve ID");
 
             curveService.update(curvePoint);
 
