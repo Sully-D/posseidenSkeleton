@@ -56,6 +56,7 @@ public class UserService {
      * @param user the Users entity to add.
      */
     public void addUser(Users user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
