@@ -11,6 +11,9 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h2>Login with username and password</h2>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Invalid username or password.
+            </div>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -25,5 +28,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

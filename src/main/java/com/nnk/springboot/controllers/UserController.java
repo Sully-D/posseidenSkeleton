@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.domain.Users;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.services.UserService;
+import com.nnk.springboot.util.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,8 +23,6 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -62,11 +61,18 @@ public class UserController {
      */
     @PostMapping("/users/validate")
     public String validate(@Valid Users user, BindingResult result, Model model) {
+        try {
+            Utils.checkPasswordFormat(user.getPassword());
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("password", "error.user", e.getMessage());
+        }
+
         if (result.hasErrors()) {
             return "users/add";
         }
+
         userService.addUser(user);
-        return "redirect:list";
+        return "redirect:/users/list";
     }
 
     /**
@@ -101,12 +107,17 @@ public class UserController {
     @PostMapping("/users/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid Users users,
                                BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("users", users);
-            return "users/update";
+        try {
+            Utils.checkPasswordFormat(users.getPassword());
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("password", "error.user", e.getMessage());
         }
 
-        userService.updateUser(id, users);
+        if (result.hasErrors()) {
+            return "/users/update";
+        }
+
+        userService.addUser(users);
         return "redirect:/users/list";
     }
 
